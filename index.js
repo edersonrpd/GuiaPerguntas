@@ -24,7 +24,9 @@ app.use(bodyParser.json()); //
 //Rotas
 app.get("/", (req, res) => {
   // select * from perguntas
-  Pergunta.findAll({ raw: true }).then((perguntas) => {
+  Pergunta.findAll({ raw: true, order:[
+    ["id","DESC"] //Ordernar do maior para menor
+  ] }).then((perguntas) => {
     res.render("index", { perguntas: perguntas });
   });
 });
