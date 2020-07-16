@@ -54,9 +54,9 @@ app.get("/pergunta/:id", (req, res) => {
   var id = req.params.id;
   Pergunta.findOne({
     where: { id: id },
-  }).then(pergunta => {
+  }).then((pergunta) => {
     if (pergunta != undefined) {
-      res.render("pergunta");
+      res.render("pergunta",{ pergunta:pergunta});
     } else {
       res.redirect("/");
     }
