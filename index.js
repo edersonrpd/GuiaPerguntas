@@ -23,7 +23,10 @@ app.use(bodyParser.json()); //
 
 //Rotas
 app.get("/", (req, res) => {
-  res.render("index");
+  // select * from perguntas
+  Pergunta.findAll({ raw: true }).then((perguntas) => {
+    res.render("index", { perguntas: perguntas });
+  });
 });
 
 app.get("/perguntar", (req, res) => {
@@ -34,12 +37,12 @@ app.post("/salvarpergunta", (req, res) => {
   var titulo = req.body.titulo;
   var descricao = req.body.descricao;
   //Insert do Sequelize
-  Pergunta.create({ 
+  Pergunta.create({
     titulo: titulo,
-    descricao: descricao
-  }).then(() =>{
-    res.redirect("/")  // Apos postar pergunta direciona para a raiz
-  })
+    descricao: descricao,
+  }).then(() => {
+    res.redirect("/"); // Apos postar pergunta direciona para a raiz
+  });
 });
 
 app.listen(3000, () => {
