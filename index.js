@@ -57,7 +57,15 @@ app.get("/pergunta/:id", (req, res) => {
     where: { id: id },
   }).then((pergunta) => {
     if (pergunta != undefined) {
-      res.render("pergunta", { pergunta: pergunta });
+      Resposta.findAll({
+        where: { perguntaId: pergunta.id },
+        order: [["id", "DESC"]],
+      }).then((respostas) => {
+        res.render("pergunta", {
+          pergunta: pergunta,
+          respostas: respostas,
+        });
+      });
     } else {
       res.redirect("/");
     }
@@ -71,8 +79,8 @@ app.post("/responder", (req, res) => {
     corpo: corpo,
     perguntaId: perguntaId,
   }).then((response) => {
-    res.redirect("/pergunta/"+perguntaId)
-  })
+    res.redirect("/pergunta/" + perguntaId);
+  });
 });
 
 app.listen(3000, () => {
